@@ -130,7 +130,7 @@ function updateGameArea() {
         if (myGamePiece.crashWith(myObstacles[i])) {
             myGamePiece.image.src = "image3.png";
             myGamePiece.update();
-            mySound.play();
+            //mySound.play();
             setTimeout(function () {
             window.location.reload();
             }, 2500); 

@@ -1,0 +1,101 @@
+* {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+body {
+    background-image: url("animals.jpg");
+}
+
+
+
+/* CHARACTER CREATION SCREEN */
+
+/* Character Creation Title */
+#selecttitle {
+    font-size: 50px;
+    font-weight: bold;
+    color: #2A3740;
+    margin: 100px auto 30px auto;
+    padding: 5px;
+    width: max-content;
+    background: rgba(255, 255, 255, 0.2);
+    border: solid 2px transparent;
+    border-radius: 3em;
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid #D5E7F2;
+    border-top: 3px solid #D5E7F2;
+}
+
+/* Character Selection Section */
+.character-selection {
+    display: flex;
+    width: 800px;
+    height: 400px;
+    margin: auto;
+    background-color: #0C4459;
+    border: 3px solid #2A3740;
+    border-radius: 500px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Characters */
+.character-selection img {
+    margin: 10px;
+    width: 150px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    align-items: space-between;
+}
+
+/* Characters :hover */
+.character-selection img:hover {
+    background-color: #D5E7F2;
+    box-shadow: 5px 5px 20px black;
+}
+
+/* Mode Selection */
+.mode {
+    display: flex;
+    width: 500px;
+    justify-content: space-around;
+    align-items: center;
+    margin: 70px auto;  
+}
+
+.mode a {
+    font-size: 40px;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 20px 70px;
+    background: #2A3740;
+    border: solid 2px transparent;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid #D5E7F2;
+    border-top: 3px solid #D5E7F2;
+}
+
+.mode a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #2A3740;
+    border: solid 2px transparent;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+
+/* STARTING GAME */
+
+/* Canvas Sizing */
+canvas {
+    display: block;
+    margin: 100px auto;
+    border: 1px solid red;
+    border-radius: 2em;
+}
+
