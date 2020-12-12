@@ -4,29 +4,29 @@ function gameStart(character){
     var myGamePiece;
     var myObstacles = [];
     var candies =  [
-        "\\candies\\candy1.png",
-        "\\candies\\candy2.png",
-        "\\candies\\candy3.png",
-        "\\candies\\candy4.png",
-        "\\candies\\candy5.png",
-        "\\candies\\candy6.png",
-        "\\candies\\candy7.png",
-        "\\candies\\candy1.png",
-        "\\candies\\candy2.png",
-        "\\candies\\candy3.png"
+        "candy1.png",
+        "candy2.png",
+        "candy3.png",
+        "candy4.png",
+        "candy5.png",
+        "candy6.png",
+        "candy7.png",
+        "candy1.png",
+        "candy2.png",
+        "candy3.png"
     ];
 
     var candyRotated =  [
-        "\\candies\\candy1.png",
-        "\\candies\\candy2rotate.png",
-        "\\candies\\candy3rotate.png",
-        "\\candies\\candy4.png",
-        "\\candies\\candy5rotate.png",
-        "\\candies\\candy6rotate.png",
-        "\\candies\\candy7rotate.png",
-        "\\candies\\candy1.png",
-        "\\candies\\candy2rotate.png",
-        "\\candies\\candy3rotate.png"
+        "candy1.png",
+        "candy2rotate.png",
+        "candy3rotate.png",
+        "candy4.png",
+        "candy5rotate.png",
+        "candy6rotate.png",
+        "candy7rotate.png",
+        "candy1.png",
+        "candy2rotate.png",
+        "candy3rotate.png"
     ];
 
 
