@@ -1,32 +1,47 @@
+// Restarting the game function to add to the button 
+function restartgame(){
+    document.getElementsByTagName("canvas")[0].remove();
+    document.getElementsByTagName("button")[0].remove();
+    document.getElementsByTagName("button")[0].remove();
+    gameStart("char1");
+}
+// Going back to Main Menu function
+function charScreen(){
+    document.getElementsByTagName("canvas")[0].remove();
+    document.getElementsByTagName("button")[0].remove();
+    document.getElementsByTagName("button")[0].remove();
+    document.getElementById("gate").style.display = "";
+}
+
 function gameStart(character){
     // Variables Declaration
     var myBackground;
     var myGamePiece;
     var myObstacles = [];
     var candies =  [
-        "candy1.png",
-        "candy2.png",
-        "candy3.png",
-        "candy4.png",
-        "candy5.png",
-        "candy6.png",
-        "candy7.png",
-        "candy1.png",
-        "candy2.png",
-        "candy3.png"
+        "\\candies\\candy1.png",
+        "\\candies\\candy2.png",
+        "\\candies\\candy3.png",
+        "\\candies\\candy4.png",
+        "\\candies\\candy5.png",
+        "\\candies\\candy6.png",
+        "\\candies\\candy7.png",
+        "\\candies\\candy8.png",
+        "\\candies\\candy9.png",
+        "\\candies\\candy10.png"
     ];
 
     var candyRotated =  [
-        "candy1.png",
-        "candy2rotate.png",
-        "candy3rotate.png",
-        "candy4.png",
-        "candy5rotate.png",
-        "candy6rotate.png",
-        "candy7rotate.png",
-        "candy1.png",
-        "candy2rotate.png",
-        "candy3rotate.png"
+        "\\candies\\candy1.png",
+        "\\candies\\candy2rotate.png",
+        "\\candies\\candy3rotate.png",
+        "\\candies\\candy4.png",
+        "\\candies\\candy5rotate.png",
+        "\\candies\\candy6rotate.png",
+        "\\candies\\candy7rotate.png",
+        "\\candies\\candy8rotate.png",
+        "\\candies\\candy9rotate.png",
+        "\\candies\\candy10rotate.png"
     ];
 
 
@@ -36,6 +51,18 @@ function gameStart(character){
     // Clearing the page
     document.getElementById("gate").style.display = "none";
 
+    
+    // Creating button to Restart the game && Character Selection screen
+    var resetButton = document.createElement("BUTTON");
+    resetButton.innerHTML = "Restart";
+    resetButton.setAttribute("onclick", "restartgame()");
+    document.getElementById("buttons").appendChild(resetButton);
+    var charScreenButton = document.createElement("BUTTON");
+    charScreenButton.innerHTML = "Main Menu";
+    charScreenButton.setAttribute("onclick", "charScreen()");
+    document.getElementById("buttons").appendChild(charScreenButton);
+    
+
 
     // Making Our Canvas Enviroment
     var myGameArea = {
@@ -44,7 +71,7 @@ function gameStart(character){
             this.canvas.width = 1280;
             this.canvas.height = 720;
             this.context = this.canvas.getContext("2d");
-            document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+            document.getElementById("container").appendChild(this.canvas);
             this.frameNo = 0;
             this.interval = setInterval(updateGameArea, 20);
             window.addEventListener('keydown', function (e) {
@@ -81,6 +108,7 @@ function gameStart(character){
         this.y = y;
         this.speedX = 0;
         this.speedY = 0;
+        this.bounce = 0.6;
         this.update = function(){
             ctx = myGameArea.context;
             if (this.type == "character" || this.type == "background") {
@@ -107,6 +135,7 @@ function gameStart(character){
             var bottom = myGameArea.canvas.height - this.height;
             if (this.y> bottom ){
                 this.y = bottom ;
+                this.gravitySpeed = -(this.gravitySpeed * this.bounce);
             }
         }
         if (this.type == "character"){
@@ -177,7 +206,7 @@ function gameStart(character){
             var rdm = Math.floor(Math.random()*10);
             var candy = candies[rdm];
             var rotatedcandy = candyRotated[rdm];
-            minHeight = 20;
+            minHeight = 50;
             maxHeight = 450;
             height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
             gap = 200;
@@ -193,6 +222,7 @@ function gameStart(character){
                 myGamePiece.image.src = "image3.png";
                 myGamePiece.update();
                 myGameArea.stop();
+                console.log("CRASH");
             }
         }
     }
