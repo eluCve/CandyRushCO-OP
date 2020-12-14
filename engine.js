@@ -3,7 +3,7 @@ function restartgame(){
     document.getElementsByTagName("canvas")[0].remove();
     document.getElementsByTagName("button")[0].remove();
     document.getElementsByTagName("button")[0].remove();
-    gameStart("char1");
+    gameStart(charPicked);
 }
 // Going back to Main Menu function
 function charScreen(){
@@ -13,8 +13,26 @@ function charScreen(){
     document.getElementById("gate").style.display = "";
 }
 
+var dk = {
+    normal: "./models/dknormal.png",
+    jump: "./models/dkjump.png",
+    crash: "./models/dkcrash.png"
+}
+
+var beemo = {
+    normal: "./models/beemonormal.png",
+    jump: "./models/beemojump.png",
+    crash: "./models/beemocrash.png"
+}
+
+var normal;
+var jump;
+var crash;
+var charPicked;
+
 function gameStart(character){
     // Variables Declaration
+    charPicked = character;
     var myBackground;
     var myGamePiece;
     var myObstacles = [];
@@ -44,6 +62,8 @@ function gameStart(character){
         "./candies/candy10rotate.png"
     ];
 
+
+    
 
 
 
@@ -164,11 +184,17 @@ function gameStart(character){
     function startGame() {
         myGameArea.start();
         myBackground = new object(myGameArea.canvas.width, myGameArea.canvas.height, 0, 0, "background.jpg", "background");
-        if (character == 'char1') {
-            myGamePiece = new object(100, 100, 300, 120, "image1.png", "character");
+        if (character == 'dk') {
+            myGamePiece = new object(100, 100, 300, 120, dk.normal, "character");
+            normal = dk.normal;
+            jump = dk.jump;
+            crash = dk.crash;
         }
-        if (character == 'char2') {
-            myGamePiece = new object(100, 100, 300, 120, "image2.png", "character");
+        if (character == 'beemo') {
+            myGamePiece = new object(100, 100, 300, 120, beemo.normal, "character");
+            normal = beemo.normal;
+            jump = beemo.jump;
+            crash = beemo.crash;
         }
         if (character == 'char3') {
             myGamePiece = new object(100, 100, 300, 120,  "image3.png","character");
@@ -186,8 +212,10 @@ function gameStart(character){
         myGamePiece.speedY = 0;
         if (myGameArea.keys && myGameArea.keys[38]) {
             myGamePiece.speedY = -10;
-            myGamePiece.gravitySpeed = 0.5;   
-        }
+            myGamePiece.gravitySpeed = 0.5;  
+            myGamePiece.image.src = jump;
+            myGamePiece.update(); 
+        }else myGamePiece.image.src = normal;
         if (myGameArea.keys && myGameArea.keys[39]) {
             myGamePiece.speedX = 5;
         }
@@ -219,10 +247,9 @@ function gameStart(character){
         }
         for (i = 0; i < myObstacles.length; i += 1) {
             if (myGamePiece.crashWith(myObstacles[i])) {
-                myGamePiece.image.src = "image3.png";
+                myGamePiece.image.src = crash;
                 myGamePiece.update();
-                myGameArea.stop();
-                console.log("CRASH");
+                setTimeout(function(){myGameArea.stop();}, 20);
             }
         }
     }

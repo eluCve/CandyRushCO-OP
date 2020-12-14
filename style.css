@@ -42,6 +42,12 @@ body {
 }
 
 /* Characters */
+
+.character-images {
+    width: 200px;
+    height: 150px;
+}
+
 .character-selection img {
     margin: 10px;
     width: 150px;
