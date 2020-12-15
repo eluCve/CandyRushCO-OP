@@ -1,17 +1,24 @@
-// Restarting the game function to add to the button 
+// Restarting the game function for the button 
 function restartgame(){
     document.getElementsByTagName("canvas")[0].remove();
     document.getElementsByTagName("button")[0].remove();
     document.getElementsByTagName("button")[0].remove();
     gameStart(charPicked);
 }
-// Going back to Main Menu function
+
+// Going back to Main Menu function for Button
 function charScreen(){
     document.getElementsByTagName("canvas")[0].remove();
     document.getElementsByTagName("button")[0].remove();
     document.getElementsByTagName("button")[0].remove();
     document.getElementById("gate").style.display = "";
 }
+
+// Model Images and variable declare
+var normal;
+var jump;
+var crash;
+var charPicked;
 
 var dk = {
     normal: "./models/dknormal.png",
@@ -25,18 +32,7 @@ var beemo = {
     crash: "./models/beemocrash.png"
 }
 
-var normal;
-var jump;
-var crash;
-var charPicked;
-
-function gameStart(character){
-    // Variables Declaration
-    charPicked = character;
-    var myBackground;
-    var myGamePiece;
-    var myObstacles = [];
-    var candies =  [
+var candies =  [
         "./candies/candy1.png",
         "./candies/candy2.png",
         "./candies/candy3.png",
@@ -47,9 +43,9 @@ function gameStart(character){
         "./candies/candy8.png",
         "./candies/candy9.png",
         "./candies/candy10.png"
-    ];
+];
 
-    var candyRotated =  [
+var candyRotated =  [
         "./candies/candy1.png",
         "./candies/candy2rotate.png",
         "./candies/candy3rotate.png",
@@ -60,19 +56,24 @@ function gameStart(character){
         "./candies/candy8rotate.png",
         "./candies/candy9rotate.png",
         "./candies/candy10rotate.png"
-    ];
+];
 
 
-    
+// GAME 
+function gameStart(character){
+    // Local Game Variable Declaration
+    var myBackground;
+    var myGamePiece;
+    var myObstacles = [];
+    var bouncingx = 0;
+    var bouncingy = 0;
+    charPicked = character;
 
-
-
-
-    // Clearing the page
+    // Clearing the Menu page
     document.getElementById("gate").style.display = "none";
 
     
-    // Creating button to Restart the game && Character Selection screen
+    // Buttons for Restart and Main Menu
     var resetButton = document.createElement("BUTTON");
     resetButton.innerHTML = "Restart";
     resetButton.setAttribute("onclick", "restartgame()");
@@ -83,8 +84,7 @@ function gameStart(character){
     document.getElementById("buttons").appendChild(charScreenButton);
     
 
-
-    // Making Our Canvas Enviroment
+    // Drawing The Canvas
     var myGameArea = {
         canvas : document.createElement("canvas"),
         start : function() {
@@ -117,7 +117,6 @@ function gameStart(character){
 
 
     //Object Constructor
-
     function object(width, height, x, y, source, type){
         this.image = new Image();
         this.image.src = source;
@@ -129,6 +128,26 @@ function gameStart(character){
         this.speedX = 0;
         this.speedY = 0;
         this.bounce = 0.6;
+        if (this.type == "character"){
+            this.gravity = 0.2;
+            this.gravitySpeed = 0.1;
+            this.crashWith = function(otherobj){
+                var myleft = this.x + 30;
+                var myright = this.x + (this.width) - 20;
+                var mytop = this.y + 15;
+                var mybottom = this.y + (this.height) - 20;
+                var otherleft = otherobj.x;
+                var otherright = otherobj.x + (otherobj.width);
+                var othertop = otherobj.y;
+                var otherbottom = otherobj.y + (otherobj.height);
+                var crash = true;
+                if ((mybottom < othertop) ||
+                (mytop > otherbottom) || 
+                (myright < otherleft) || 
+                (myleft > otherright)) crash = false;
+                return crash;
+            }
+        }
         this.update = function(){
             ctx = myGameArea.context;
             if (this.type == "character" || this.type == "background") {
@@ -156,26 +175,6 @@ function gameStart(character){
             if (this.y> bottom ){
                 this.y = bottom ;
                 this.gravitySpeed = -(this.gravitySpeed * this.bounce);
-            }
-        }
-        if (this.type == "character"){
-            this.gravity = 0.2;
-            this.gravitySpeed = 0.1;
-            this.crashWith = function(otherobj){
-                var myleft = this.x + 30;
-                var myright = this.x + (this.width) - 20;
-                var mytop = this.y + 15;
-                var mybottom = this.y + (this.height) - 20;
-                var otherleft = otherobj.x;
-                var otherright = otherobj.x + (otherobj.width);
-                var othertop = otherobj.y;
-                var otherbottom = otherobj.y + (otherobj.height);
-                var crash = true;
-                if ((mybottom < othertop) ||
-                (mytop > otherbottom) || 
-                (myright < otherleft) || 
-                (myleft > otherright)) crash = false;
-                return crash;
             }
         }
     }
@@ -206,10 +205,29 @@ function gameStart(character){
     function updateGameArea(){
         myGameArea.clear();
         myBackground.speedX = -1;
-        myBackground.newPos();
         myBackground.update();
-        myGamePiece.speedX = 0;
+        myBackground.newPos(); 
         myGamePiece.speedY = 0;
+
+        // Decreasing Velocity of X when a button is not pressed
+        if (myGamePiece.speedX != 0) {
+            if (myGamePiece.speedX > 0){
+                myGamePiece.speedX = myGamePiece.speedX - 0.3;
+                if (bouncingx > 1) {
+                    myGamePiece.x = myGamePiece.x - bouncingx;
+                    bouncingx = bouncingx - (bouncingx * 60 / 100);
+                }
+            } else {
+                myGamePiece.speedX = myGamePiece.speedX +0.3;
+            }
+        }
+        if (bouncingy > 1){
+            myGamePiece.y = myGamePiece.y - bouncingy;
+            bouncingy = bouncingy - (bouncingy * 60 / 100);
+            
+        }
+
+        // Moving the Character based on key pressing
         if (myGameArea.keys && myGameArea.keys[38]) {
             myGamePiece.speedY = -10;
             myGamePiece.gravitySpeed = 0.5;  
@@ -217,18 +235,25 @@ function gameStart(character){
             myGamePiece.update(); 
         }else myGamePiece.image.src = normal;
         if (myGameArea.keys && myGameArea.keys[39]) {
-            myGamePiece.speedX = 5;
+            myGamePiece.speedX = myGamePiece.speedX + 1;
+            if (Math.abs(myGamePiece.speedX) > 7){
+                myGamePiece.speedX = +7;
+            }
         }
         if (myGameArea.keys && myGameArea.keys[37]) {
-            myGamePiece.speedX = -5;
+            myGamePiece.speedX =  myGamePiece.speedX - 1;
+            if (Math.abs(myGamePiece.speedX) > 7){
+                myGamePiece.speedX = -7;
+            }
         }
         if (myGameArea.keys && myGameArea.keys[40]) {
             myGamePiece.speedY = 5;
         }
         myGamePiece.update();
         myGamePiece.newPos();
-        myGameArea.frameNo += 1;
-        if (myGameArea.frameNo == 1 || everyinterval(170)){
+
+        // Spawining Obstacles
+        if (myGameArea.frameNo == 0 || everyinterval(170)){
             var x = myGameArea.canvas.width;
             var y = myGameArea.canvas.height;
             var rdm = Math.floor(Math.random()*10);
@@ -241,20 +266,49 @@ function gameStart(character){
             myObstacles.push(new object(100, height, x, 0, rotatedcandy, "character"));
             myObstacles.push(new object(100, y - height - gap, x, height + gap, candy, "character"));
         }
+        // Setting the X speed of obstacles
         for (i = 0; i < myObstacles.length; i += 1) {
             myObstacles[i].x -= 4;
             myObstacles[i].update();
         }
+
+        // Object Crashing 
         for (i = 0; i < myObstacles.length; i += 1) {
             if (myGamePiece.crashWith(myObstacles[i])) {
+                
+                console.log("crash working now!");
+                var minbounce = 20;
+                // X axis crash bounce
+                bouncingx = (myGamePiece.speedX * 5) + minbounce;
+                myGamePiece.x = myGamePiece.x - bouncingx;
+                // Y axis crash bounce
+                bouncingy = (myGamePiece.speedY * 7) + minbounce;
+                myGamePiece.y = myGamePiece.y - bouncingy;
+                
+                
                 myGamePiece.image.src = crash;
                 myGamePiece.update();
-                setTimeout(function(){myGameArea.stop();}, 20);
+                // setTimeout(function(){myGameArea.stop();}, 20);
             }
         }
+
+        // Stopping the Character from going beyond Y axis map
+        if (myGamePiece.y < -10) {
+            myGamePiece.y = 0;
+        }
+        
+        if (myGamePiece.x > myGameArea.canvas.width -100){
+            myGamePiece.x = myGameArea.canvas.width -120;
+        }
+
+        // Losing the game when character leaves the map
+        if (myGamePiece.x < - 100){
+            myGameArea.stop();
+            
+        }
+        
+        myGameArea.frameNo += 1;
     }
-
-
     
     // Starting the game :) 
     startGame();
