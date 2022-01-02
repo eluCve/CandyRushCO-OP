@@ -20,42 +20,47 @@ var jump;
 var crash;
 var charPicked;
 
+var normalSecond;
+var jumpSecond;
+var crashSecond;
+var charPicked;
+
 var dk = {
-    normal: "./models/dknormal.png",
-    jump: "./models/dkjump.png",
-    crash: "./models/dkcrash.png"
+    normal: "\\models\\dknormal.png",
+    jump: "\\models\\dkjump.png",
+    crash: "\\models\\dkcrash.png"
 }
 
 var beemo = {
-    normal: "./models/beemonormal.png",
-    jump: "./models/beemojump.png",
-    crash: "./models/beemocrash.png"
+    normal: "\\models\\beemonormal.png",
+    jump: "\\models\\beemojump.png",
+    crash: "\\models\\beemocrash.png"
 }
 
 var candies =  [
-        "./candies/candy1.png",
-        "./candies/candy2.png",
-        "./candies/candy3.png",
-        "./candies/candy4.png",
-        "./candies/candy5.png",
-        "./candies/candy6.png",
-        "./candies/candy7.png",
-        "./candies/candy8.png",
-        "./candies/candy9.png",
-        "./candies/candy10.png"
+    "\\candies\\candy1.png",
+    "\\candies\\candy2.png",
+    "\\candies\\candy3.png",
+    "\\candies\\candy4.png",
+    "\\candies\\candy5.png",
+    "\\candies\\candy6.png",
+    "\\candies\\candy7.png",
+    "\\candies\\candy8.png",
+    "\\candies\\candy9.png",
+    "\\candies\\candy10.png"
 ];
 
 var candyRotated =  [
-        "./candies/candy1.png",
-        "./candies/candy2rotate.png",
-        "./candies/candy3rotate.png",
-        "./candies/candy4.png",
-        "./candies/candy5rotate.png",
-        "./candies/candy6rotate.png",
-        "./candies/candy7rotate.png",
-        "./candies/candy8rotate.png",
-        "./candies/candy9rotate.png",
-        "./candies/candy10rotate.png"
+    "\\candies\\candy1.png",
+    "\\candies\\candy2rotate.png",
+    "\\candies\\candy3rotate.png",
+    "\\candies\\candy4.png",
+    "\\candies\\candy5rotate.png",
+    "\\candies\\candy6rotate.png",
+    "\\candies\\candy7rotate.png",
+    "\\candies\\candy8rotate.png",
+    "\\candies\\candy9rotate.png",
+    "\\candies\\candy10rotate.png"
 ];
 
 
@@ -65,8 +70,6 @@ function gameStart(character){
     var myBackground;
     var myGamePiece;
     var myObstacles = [];
-    var bouncingx = 0;
-    var bouncingy = 0;
     charPicked = character;
 
     // Clearing the Menu page
@@ -128,14 +131,16 @@ function gameStart(character){
         this.speedX = 0;
         this.speedY = 0;
         this.bounce = 0.6;
+        this.bouncingx = 0;
+        this.bouncingy = 0;
         if (this.type == "character"){
             this.gravity = 0.2;
             this.gravitySpeed = 0.1;
             this.crashWith = function(otherobj){
-                var myleft = this.x + 30;
-                var myright = this.x + (this.width) - 20;
-                var mytop = this.y + 15;
-                var mybottom = this.y + (this.height) - 20;
+                var myleft = this.x; //+ 30;
+                var myright = this.x + (this.width); //- 20;
+                var mytop = this.y; //+ 15;
+                var mybottom = this.y + (this.height); //- 20;
                 var otherleft = otherobj.x;
                 var otherright = otherobj.x + (otherobj.width);
                 var othertop = otherobj.y;
@@ -177,6 +182,23 @@ function gameStart(character){
                 this.gravitySpeed = -(this.gravitySpeed * this.bounce);
             }
         }
+        this.physics = function () {
+            if  (this.speedX != 0){
+                if (this.speedX > 0){
+                    this.speedX = this.speedX - 0.3;
+                    if (this.bouncingx > 1){
+                        this.x = this.x - this.bouncingx;
+                        this.bouncingx = this.bouncingx - (this.bouncingx * 60 / 100);
+                    }
+                } else {
+                    this.speedX = this.speedX + 0.3;
+                }
+            }
+            if (this.bouncingy > 1){
+                this.y = this.y - this.bouncingy;
+                this.bouncingy = this.bouncingy - (this.bouncingy * 60 / 100);
+            }
+        }
     }
 
     // Building ALL Objects
@@ -198,6 +220,10 @@ function gameStart(character){
         if (character == 'char3') {
             myGamePiece = new object(100, 100, 300, 120,  "image3.png","character");
         }
+        myGamePieceSecond = new object(100, 100, 600, 120, beemo.normal, "character");
+        normalSecond = beemo.normal;
+        jumpSecond = beemo.jump;
+        crashSecond = beemo.crash;
     }
 
 
@@ -208,26 +234,10 @@ function gameStart(character){
         myBackground.update();
         myBackground.newPos(); 
         myGamePiece.speedY = 0;
+        myGamePieceSecond.speedY = 0;
 
-        // Decreasing Velocity of X when a button is not pressed
-        if (myGamePiece.speedX != 0) {
-            if (myGamePiece.speedX > 0){
-                myGamePiece.speedX = myGamePiece.speedX - 0.3;
-                if (bouncingx > 1) {
-                    myGamePiece.x = myGamePiece.x - bouncingx;
-                    bouncingx = bouncingx - (bouncingx * 60 / 100);
-                }
-            } else {
-                myGamePiece.speedX = myGamePiece.speedX +0.3;
-            }
-        }
-        if (bouncingy > 1){
-            myGamePiece.y = myGamePiece.y - bouncingy;
-            bouncingy = bouncingy - (bouncingy * 60 / 100);
-            
-        }
 
-        // Moving the Character based on key pressing
+        // Moving the First Character based on key pressing
         if (myGameArea.keys && myGameArea.keys[38]) {
             myGamePiece.speedY = -10;
             myGamePiece.gravitySpeed = 0.5;  
@@ -252,6 +262,65 @@ function gameStart(character){
         myGamePiece.update();
         myGamePiece.newPos();
 
+        // Stopping the First Character from going beyond Y axis map
+        if (myGamePiece.y < -10) {
+            myGamePiece.y = 0;
+        }
+        
+        if (myGamePiece.x > myGameArea.canvas.width -100){
+            myGamePiece.x = myGameArea.canvas.width -120;
+        }
+
+        // Losing the game when the Firstcharacter leaves the map
+        if (myGamePiece.x < - 100){
+            myGameArea.stop();
+            
+        }
+
+
+
+        // Moving the Second Character based on key pressing
+        if (myGameArea.keys && myGameArea.keys[87]) {
+            myGamePieceSecond.speedY = -10;
+            myGamePieceSecond.gravitySpeed = 0.5;  
+            myGamePieceSecond.image.src = jumpSecond;
+            myGamePieceSecond.update(); 
+        }else myGamePieceSecond.image.src = normalSecond;
+        if (myGameArea.keys && myGameArea.keys[68]) {
+            myGamePieceSecond.speedX = myGamePieceSecond.speedX + 1;
+            if (Math.abs(myGamePieceSecond.speedX) > 7){
+                myGamePieceSecond.speedX = +7;
+            }
+        }
+        if (myGameArea.keys && myGameArea.keys[65]) {
+            myGamePieceSecond.speedX =  myGamePieceSecond.speedX - 1;
+            if (Math.abs(myGamePieceSecond.speedX) > 7){
+                myGamePieceSecond.speedX = -7;
+            }
+        }
+        if (myGameArea.keys && myGameArea.keys[83]) {
+            myGamePieceSecond.speedY = 5;
+        }
+        myGamePieceSecond.update();
+        myGamePieceSecond.newPos();
+
+        // Stopping the Second Character from going beyond Y axis map
+        if (myGamePieceSecond.y < -10) {
+            myGamePieceSecond.y = 0;
+        }
+        
+        if (myGamePieceSecond.x > myGameArea.canvas.width -100){
+            myGamePieceSecond.x = myGameArea.canvas.width -120;
+        }
+
+        // Losing the game when the Second character leaves the map
+        if (myGamePieceSecond.x < - 100){
+            myGameArea.stop();
+            
+        }
+        
+        
+
         // Spawining Obstacles
         if (myGameArea.frameNo == 0 || everyinterval(170)){
             var x = myGameArea.canvas.width;
@@ -275,38 +344,80 @@ function gameStart(character){
         // Object Crashing 
         for (i = 0; i < myObstacles.length; i += 1) {
             if (myGamePiece.crashWith(myObstacles[i])) {
+                var minbounce = 20;
+                if ( myGamePiece.x < myObstacles[i].x){
+                    bouncingx = (myGamePiece.speedX * 5) + minbounce;
+                    myGamePiece.x = myGamePiece.x - bouncingx;
+                    bouncingy = (myGamePiece.speedY * 7) + minbounce;
+                    myGamePiece.y = myGamePiece.y - bouncingy;
+                } else {
+                    
+                }
+                
+                myGamePiece.image.src = crash;
+                myGamePiece.update();
+            }
+        }
+
+        // Object Crashing 2
+        for (i = 0; i < myObstacles.length; i += 1) {
+            if (myGamePieceSecond.crashWith(myObstacles[i])) {
                 
                 console.log("crash working now!");
                 var minbounce = 20;
                 // X axis crash bounce
-                bouncingx = (myGamePiece.speedX * 5) + minbounce;
-                myGamePiece.x = myGamePiece.x - bouncingx;
+                bouncingx = (myGamePieceSecond.speedX * 5) + minbounce;
+                myGamePieceSecond.x = myGamePieceSecond.x - bouncingx;
                 // Y axis crash bounce
-                bouncingy = (myGamePiece.speedY * 7) + minbounce;
-                myGamePiece.y = myGamePiece.y - bouncingy;
+                bouncingy = (myGamePieceSecond.speedY * 7) + minbounce;
+                myGamePieceSecond.y = myGamePieceSecond.y - bouncingy;
                 
-                
-                myGamePiece.image.src = crash;
-                myGamePiece.update();
-                // setTimeout(function(){myGameArea.stop();}, 20);
+                myGamePieceSecond.image.src = crash;
+                myGamePieceSecond.update();
             }
         }
 
-        // Stopping the Character from going beyond Y axis map
-        if (myGamePiece.y < -10) {
-            myGamePiece.y = 0;
-        }
-        
-        if (myGamePiece.x > myGameArea.canvas.width -100){
-            myGamePiece.x = myGameArea.canvas.width -120;
-        }
 
-        // Losing the game when character leaves the map
-        if (myGamePiece.x < - 100){
-            myGameArea.stop();
+        
+        if (myGamePiece.crashWith(myGamePieceSecond)) {
+            var minBounce = 20;
+            var maxBounceX = (Math.abs(myGamePiece.speedX) + Math.abs(myGamePieceSecond.speedX)) * 5 + minBounce;
+            var maxBounceY = (Math.abs(myGamePiece.speedY) + Math.abs(myGamePieceSecond.speedY) * 5 + minBounce);
+            
+            if (myGamePiece.x < myGamePieceSecond.x){
+                myGamePiece.x = myGamePiece.x - maxBounceX;
+                myGamePieceSecond.x = myGamePieceSecond.x + maxBounceX;
+            } else {
+                myGamePiece.x = myGamePiece.x + maxBounceX;
+                myGamePieceSecond.x = myGamePieceSecond.x - maxBounceX;
+            }
+
+            if (myGamePiece.y < myGamePieceSecond.y){
+                myGamePiece.y = myGamePiece.y - maxBounceY;
+                myGamePieceSecond.y = myGamePieceSecond.y + maxBounceY;
+            } else {
+                myGamePiece.y = myGamePiece.y + maxBounceY;
+                myGamePieceSecond.y = myGamePieceSecond.y - maxBounceY;
+            }
+
+            myGamePiece.image.src = crash;
+            myGamePiece.update();
+            myGamePieceSecond.image.src = crash;
+            myGamePieceSecond.update();   
+            myGamePiece.speedX = 0;
+            myGamePieceSecond.speedX = 0;
+            myGamePiece.speedY = 0;
+            myGamePieceSecond.speedY = 0;
             
         }
         
+
+        // Decreasing Velocity of X and Y when a button is not pressed and apply bouncing when crash
+        myGamePiece.physics();
+        myGamePieceSecond.physics();
+        
+
+        // Adding Next frame
         myGameArea.frameNo += 1;
     }
     
