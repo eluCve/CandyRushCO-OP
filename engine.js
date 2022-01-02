@@ -26,7 +26,7 @@ var crashSecond;
 var charPicked;
 
 var dk = {
-    normal: "./models./dknormal.png",
+    normal: "./models/dknormal.png",
     jump: "./models/dkjump.png",
     crash: "./models/dkcrash.png"
 }
