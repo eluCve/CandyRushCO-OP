@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div id = "container">
+    <div id="container">
         <div id="buttons"></div>
     </div>
-    <div id = "gate">
-        <p id = "selecttitle">Character Selection</p>
+    <div id="gate">
+        <p id="selecttitle">Available Characters</p>
         <div class="character-selection">
-            <img class="character-images" onclick="gameStart('dk')" style="cursor:pointer" src="./models/dknormal.png">
-            <img class="character-images" onclick="gameStart('beemo')" style="cursor:pointer" src="./models/beemojump.png">
-            <img class="character-images" onclick="gameStart('char3')" style="cursor:pointer" src="./models/beemonormal.png">
+            <img class="character-images" style="cursor:pointer" src="./models/dknormal.png">
+            <img class="character-images" style="cursor:pointer" src="./models/beemojump.png">
         </div>
         <div class="mode">
-            <a href="">Solo</a>
-            <a href="">Co-op</a>
+            <p onclick="gameStart('dk')">Play</p>
         </div>
     </div>
     <script src="engine.js"></script>
 </body>
+
 </html>

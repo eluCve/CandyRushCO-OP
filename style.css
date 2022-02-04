@@ -46,6 +46,7 @@ body {
 .character-images {
     width: 200px;
     height: 150px;
+    padding: 10px;
 }
 
 .character-selection img {
@@ -69,7 +70,7 @@ body {
     width: 500px;
     justify-content: space-around;
     align-items: center;
-    margin: 70px auto;  
+    margin: 70px auto;
 }
 
 .mode a {
@@ -90,6 +91,18 @@ body {
     color: #2A3740;
     border: solid 2px transparent;
     border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+#buttons p {
+    font-family: cursive, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    ;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 20px 70px;
+    background: #2A3740;
+    border: solid 2px transparent;
+    border-radius: 15px;
     backdrop-filter: blur(10px);
 }
 
@@ -115,7 +128,8 @@ canvas {
 }
 
 button {
-    font-family: cursive, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;;
+    font-family: cursive, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    ;
     font-size: 1em;
     font-weight: bold;
     padding: 20px 70px;
@@ -135,6 +149,28 @@ button:hover {
     backdrop-filter: blur(10px);
 }
 
-button:active { outline: none;}
+button:active {
+    outline: none;
+}
 
+.mode p {
+    font-family: cursive, Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    ;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 20px 70px;
+    background: #2A3740;
+    border: solid 2px transparent;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid #D5E7F2;
+    border-top: 3px solid #D5E7F2;
+}
 
+.mode p:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #2A3740;
+    border: solid 2px transparent;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
