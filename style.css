@@ -71,6 +71,7 @@ body {
     justify-content: space-around;
     align-items: center;
     margin: 70px auto;
+    cursor: pointer;
 }
 
 .mode a {
@@ -84,6 +85,7 @@ body {
     backdrop-filter: blur(10px);
     border-bottom: 3px solid #D5E7F2;
     border-top: 3px solid #D5E7F2;
+    cursor: pointer;
 }
 
 .mode a:hover {
@@ -92,6 +94,7 @@ body {
     border: solid 2px transparent;
     border-radius: 30px;
     backdrop-filter: blur(10px);
+    cursor: pointer;
 }
 
 #buttons p {
@@ -104,6 +107,7 @@ body {
     border: solid 2px transparent;
     border-radius: 15px;
     backdrop-filter: blur(10px);
+    cursor: pointer;
 }
 
 
@@ -125,6 +129,7 @@ canvas {
     justify-content: space-around;
     margin-top: 30px;
     align-items: center;
+    cursor: pointer;
 }
 
 button {
@@ -139,6 +144,7 @@ button {
     backdrop-filter: blur(10px);
     border-bottom: 3px solid #D5E7F2;
     border-top: 3px solid #D5E7F2;
+    cursor: pointer;
 }
 
 button:hover {
@@ -147,6 +153,7 @@ button:hover {
     border: solid 2px transparent;
     border-radius: 30px;
     backdrop-filter: blur(10px);
+    cursor: pointer;
 }
 
 button:active {
@@ -165,6 +172,7 @@ button:active {
     backdrop-filter: blur(10px);
     border-bottom: 3px solid #D5E7F2;
     border-top: 3px solid #D5E7F2;
+    cursor: pointer;
 }
 
 .mode p:hover {
@@ -173,4 +181,5 @@ button:active {
     border: solid 2px transparent;
     border-radius: 30px;
     backdrop-filter: blur(10px);
+    cursor: pointer;
 }
